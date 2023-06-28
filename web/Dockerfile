@@ -1,5 +1,6 @@
 FROM denoland/deno:alpine-1.34.3
 
+LABEL org.opencontainers.image.source="https://github.com/do3-2023/mpa-kube"
 
 WORKDIR /app
 
