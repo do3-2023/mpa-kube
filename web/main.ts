@@ -10,15 +10,6 @@ if (!API_URL) {
   Deno.exit(1)
 }
 
-console.log("Connecting to database . . . ")
-console.log(API_URL)
-try {
-  let res = await fetch(`${API_URL}/healthz`);
-  console.log(res.status)
-} catch(err) {
-  console.log(err)
-}
-
 
 const handler = async (req): Promise<Response> => {
   const url = new URL(req.url);
@@ -33,8 +24,8 @@ const handler = async (req): Promise<Response> => {
     }
   }
   else if (url.pathname === '/') {
-    let res = await fetch(`${API_URL}/`);
-    let msg = await res.text()
+    let res = await fetch(`${API_URL}/hello`);
+    let msg = await res.json()
     const myTemplate = await renderFileToString("index.ejs", {
       message: msg,
     });

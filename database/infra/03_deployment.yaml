@@ -41,8 +41,10 @@ spec:
               command: ['psql', '-w', '-U', 'myuser', '-d', 'tp']
             initialDelaySeconds: 15
             timeoutSeconds: 3
+            periodSeconds: 10
           livenessProbe:
             exec:
               command: ['psql', '-w', '-U', 'myuser', '-d', 'tp']
             initialDelaySeconds: 30
             timeoutSeconds: 3
+            periodSeconds: 10

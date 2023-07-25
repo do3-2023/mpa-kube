@@ -9,6 +9,7 @@ spec:
     port: 8000
     protocol: TCP
     targetPort: 8000
+    nodePort: 32100
   selector:
     name: web
     app: web

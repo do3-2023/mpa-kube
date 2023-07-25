@@ -40,6 +40,7 @@ def init():
 
 
 init()
+print(cur.execute("SELECT * FROM greetings;"))
 
 
 """ Healthcheck """
@@ -48,15 +49,15 @@ def health():
     try:
         cur.execute("SELECT * FROM greetings LIMIT(1)")
         return "", 200
-    except:
-        return 500
+    except BaseException as err:
+        print(err)
+        return "", 500
 
 
-@app.route("/word")
+@app.route("/hello")
 def getWord():
-    """ Get a random word """
     try:
-        cur.execute("SELECT * FROM greetings LIMIT(1)")
+        cur.execute("SELECT greeting FROM greetings LIMIT(1)")
         greetings = cur.fetchone()
     except Exception as err:
         return str(err), 500

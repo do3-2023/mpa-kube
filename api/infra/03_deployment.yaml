@@ -23,7 +23,6 @@ spec:
           image: ghcr.io/do3-2023/mpa-kube/api:v0.1
           imagePullPolicy: Always
           env:
-          env:
             - name: POSTGRES_DB
               value: tp
             - name: POSTGRES_USER
