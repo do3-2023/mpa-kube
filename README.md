@@ -2,6 +2,9 @@
 
 [instructions](./assets/instructions.png)
 
+
+The docker image is available on ghcr. To push it the following commands had to be executed :
+
 # Push the docker image to ghcr
 
 ## login to ghcr
@@ -71,5 +74,14 @@ kubectl apply -f database/infra
 
 ## Deploy the api
 
+```
+kubectl apply -f api/infra
+```
 
 ## Deploy the web application
+
+```
+kubectl apply -f web/infra
+```
+
+# Access the application :
