@@ -1,19 +1,52 @@
 import { serve } from "./deps.ts";
 import { renderFileToString } from "./deps.ts";
 
-const port = 8080;
+const PORT = 8000;
 
-const handler = async (): Promise<Response> => {
-  const myTemplate = await renderFileToString("index.ejs", {
-    message: "Hello world",
-  });
-  return new Response(myTemplate, {
-    status: 200,
-    headers: {
-      "Content-Type": "text/html",
-    },
-  });
+const API_URL = Deno.env.get("API_URL");
+
+if (!API_URL) {
+  console.log("API URL MISSING!");
+  Deno.exit(1)
+}
+
+console.log("Connecting to database . . . ")
+console.log(API_URL)
+try {
+  let res = await fetch(`${API_URL}/healthz`);
+  console.log(res.status)
+} catch(err) {
+  console.log(err)
+}
+
+
+const handler = async (req): Promise<Response> => {
+  const url = new URL(req.url);
+
+  if (url.pathname === "/healthz") {
+    try {
+      let res = await fetch(`${API_URL}/healthz`);
+      return new Response("", {status: res.status})
+    }
+    catch (err) {
+      console.log(err)
+    }
+  }
+  else if (url.pathname === '/') {
+    let res = await fetch(`${API_URL}/`);
+    let msg = await res.text()
+    const myTemplate = await renderFileToString("index.ejs", {
+      message: msg,
+    });
+    return new Response(myTemplate, {
+      status: 200,
+      headers: {
+        "Content-Type": "text/html",
+      },
+    });
+  }
+  return new Response("", {status: 403})
 };
 
-console.log(`HTTP webserver running. Access it at: http://localhost:8080/`);
-await serve(handler, { port });
+console.log(`HTTP webserver running. Access it at: http://localhost:${PORT}/`);
+await serve(handler, { PORT });
