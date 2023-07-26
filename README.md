@@ -1,8 +1,14 @@
+# Author
+
+This project was made by *Muriel Paraire - DO3*
+
 # Instructions
 
 ![instructions](./assets/instructions.png)
 
 To show the connection between these different applications, I have chosen to create a simple web application that displays a greeting (`Hello world`) from the database.
+
+The web application is a SSR made with [Deno](https://deno.land/) while the backend is made in Python connecting to a postgresql database.
 
 The docker image is available on ghcr. To push it the following commands had to be executed :
 
