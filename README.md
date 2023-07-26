@@ -1,6 +1,6 @@
 # Instructions
 
-[instructions](./assets/instructions.png)
+![instructions](./assets/instructions.png)
 
 To show the connection between these different applications, I have chosen to create a simple web application that displays a greeting (`Hello world`) from the database.
 
