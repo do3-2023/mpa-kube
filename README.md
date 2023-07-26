@@ -2,6 +2,7 @@
 
 [instructions](./assets/instructions.png)
 
+To show the connection between these different applications, I have chosen to create a simple web application that displays a greeting (`Hello world`) from the database.
 
 The docker image is available on ghcr. To push it the following commands had to be executed :
 
@@ -17,19 +18,19 @@ docker login ghcr.io -u USERNAME
 
 ```bash
 cd web
-docker build -t ghcr.io/do3-2023/mpa-kube/web:v0.1 .
+docker build -t ghcr.io/do3-2023/mpa-kube/<web/api>:<version> .
 ```
 
 ## test image
 
 ```bash
-docker run -itp 8080:8080 ghcr.io/do3-2023/mpa-kube/web:v0.1
+docker run -itp 8080:8080 ghcr.io/do3-2023/mpa-kube/<web/api>:<version>
 ```
 
 ## Push on repo github
 
 ```bash
-docker push ghcr.io/do3-2023/mpa-kube/web:v0.1
+docker push ghcr.io/do3-2023/mpa-kube/<web/api>:<version>
 ```
 
 # Install the necessary tools
@@ -86,9 +87,11 @@ kubectl apply -f web/infra
 
 # Access the application :
 
-You will need to forward the listening port of the web application to access it on localhost.
+You will need to forward the listening port of the web application to access it on [localhost:8000](http://localhost:8000).
 ```bash
 kubectl port-forward $(kubectl get pods -n mpa-frontend | tail -n 1 | cut -d ' ' -f 1) 8000:8000 -n mpa-frontend
 ```
 
 The line `$(kubectl get pods -n mpa-frontend | tail -n 1 | cut -d ' ' -f 1)` simply gets the ip of the first (and in this case only) pod.
+
+

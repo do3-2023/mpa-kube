@@ -21,7 +21,7 @@ spec:
       containers:
         - name: db
           image: postgres:15
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           ports:
             - name: db
               containerPort: 5432

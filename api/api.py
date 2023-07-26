@@ -2,7 +2,6 @@ import os
 import json
 import psycopg2
 from flask import Flask
-from random import randint
 
 app = Flask(__name__)
 
@@ -38,10 +37,7 @@ def init():
         cur.execute("CREATE TABLE greetings (id SERIAL PRIMARY KEY, greeting character varying(255) NOT NULL);")
         cur.execute("INSERT INTO greetings (greeting) VALUES ('Hello world !')")
 
-
 init()
-print(cur.execute("SELECT * FROM greetings;"))
-
 
 """ Healthcheck """
 @app.route("/healthz")
