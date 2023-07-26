@@ -1,5 +1,6 @@
-import { serve } from "./deps.ts";
 import { renderFileToString } from "./deps.ts";
+import { Application, Router } from "./deps.ts";
+
 
 const PORT = 8000;
 
@@ -10,34 +11,27 @@ if (!API_URL) {
   Deno.exit(1)
 }
 
+const app = new Application();
+const router = new Router();
+router.get("/", async (context) => {
+  let res = await fetch(`${API_URL}/hello`);
+  let msg = await res.json()
+  const myTemplate = await renderFileToString("index.ejs", {
+    message: msg,
+  });
+  context.response.body = myTemplate
+  context.response.status = 200
+});
 
-const handler = async (req): Promise<Response> => {
-  const url = new URL(req.url);
-
-  if (url.pathname === "/healthz") {
-    try {
-      let res = await fetch(`${API_URL}/healthz`);
-      return new Response("", {status: res.status})
-    }
-    catch (err) {
-      console.log(err)
-    }
+router.get("/healthz", async (context) => {
+  try {
+    let res = await fetch(`${API_URL}/healthz`);
+    context.response.status = res.status;
   }
-  else if (url.pathname === '/') {
-    let res = await fetch(`${API_URL}/hello`);
-    let msg = await res.json()
-    const myTemplate = await renderFileToString("index.ejs", {
-      message: msg,
-    });
-    return new Response(myTemplate, {
-      status: 200,
-      headers: {
-        "Content-Type": "text/html",
-      },
-    });
+  catch (err) {
+    context.response.status = 500;
   }
-  return new Response("", {status: 403})
-};
+});
 
 console.log(`HTTP webserver running. Access it at: http://localhost:${PORT}/`);
-await serve(handler, { PORT });
+await app.listen({ port: PORT });
